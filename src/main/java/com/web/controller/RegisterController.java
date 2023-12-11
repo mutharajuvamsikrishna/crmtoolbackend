@@ -16,10 +16,13 @@ import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -73,13 +76,19 @@ public class RegisterController {
 	@Autowired
 	UserDetail1 userDetailsService1;
 	@Autowired
-	private AuthenticationManager authenticationManager;
+
+	@Qualifier("userAuthentication")
+	private AuthenticationManager userAuthentication;
+
+	@Autowired
+	@Qualifier("adminAuthentication")
+	private AuthenticationManager adminAuthentication;
 
 	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody Register authenticationRequest) throws Exception {
 
 		try {
-			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(),
+			userAuthentication.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(),
 					authenticationRequest.getPassword()));
 		} catch (BadCredentialsException e) {
 			throw new Exception("Incorrect username or password", e);
@@ -96,15 +105,17 @@ public class RegisterController {
 	public ResponseEntity<?> createAuthenticationToken1(@RequestBody Register1 authenticationRequest) throws Exception {
 
 		try {
-			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(),
-					authenticationRequest.getPassword()));
+			// Use the AuthenticationManager from AdminSecurityConfig
+			Authentication authentication = adminAuthentication.authenticate(new UsernamePasswordAuthenticationToken(
+					authenticationRequest.getEmail(), authenticationRequest.getPassword()));
+			SecurityContextHolder.getContext().setAuthentication(authentication);
 		} catch (BadCredentialsException e) {
 			throw new Exception("Incorrect username or password", e);
 		}
 
-		final UserDetails userDetails1 = userDetailsService1.loadUserByUsername(authenticationRequest.getEmail());
+		final UserDetails userDetails = userDetailsService1.loadUserByUsername(authenticationRequest.getEmail());
 
-		final String jwt = jwtTokenUtil.generateToken(userDetails1);
+		final String jwt = jwtTokenUtil.generateToken(userDetails);
 
 		return ResponseEntity.ok(new AuthenticationResponse(jwt));
 	}

@@ -2,6 +2,7 @@ package com.web.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -13,23 +14,23 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.web.filter.JwtRequestFilter;
-import com.web.service.UserDetail;
+import com.web.filter.JwtAdminRequestFilter;
+import com.web.service.UserDetail1;
 
 @EnableWebSecurity
-@Order(1)
-public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
-
+@Configuration
+@Order(2)
+public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 
-	private UserDetail myUserDetailsService;
+	private UserDetail1 myUserDetailsService1;
 
 	@Autowired
-	private JwtRequestFilter jwtRequestFilter;
+	private JwtAdminRequestFilter jwtAdminRequestFilter;
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(myUserDetailsService);
+		auth.userDetailsService(myUserDetailsService1);
 
 	}
 
@@ -39,7 +40,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Override
-	@Bean(name = "userAuthentication")
+	@Bean(name = "adminAuthentication")
 	public AuthenticationManager authenticationManagerBean() throws Exception {
 		return super.authenticationManagerBean();
 	}
@@ -49,13 +50,13 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 		httpSecurity.csrf().disable().authorizeRequests()
 				.antMatchers("/authenticate", "/authenticate1", "/register", "/save", "/otp1", "/changepassword",
 						"/otp5", "/changepassword1", "/adminregister", "/adminotp1", "/adminsave",
-						"/adminchangepassword", "/adminotp5", "/adminchangepassword1")
+						"/adminchangepassword", "/adminotp5", "/adminchangepassword1", "/adminreq")
 				.permitAll().anyRequest().authenticated().and().exceptionHandling().and().cors().and() // Use the
 																										// configured
 																										// CORS settings
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+		httpSecurity.addFilterBefore(jwtAdminRequestFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 
 }

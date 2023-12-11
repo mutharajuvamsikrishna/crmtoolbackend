@@ -1,3 +1,4 @@
+// JwtAdminRequestFilter.java
 package com.web.filter;
 
 import java.io.IOException;
@@ -15,14 +16,14 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.web.service.UserDetail;
+import com.web.service.UserDetail1;
 import com.web.util.JwtUtil;
 
 @Component
-public class JwtRequestFilter extends OncePerRequestFilter {
+public class JwtAdminRequestFilter extends OncePerRequestFilter {
 
 	@Autowired
-	private UserDetail userDetailsService;
+	private UserDetail1 userDetailsService;
 
 	@Autowired
 	private JwtUtil jwtUtil;
