@@ -1,21 +1,26 @@
 package com.web.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
-@EnableWebMvc
-public class CorsConfig implements WebMvcConfigurer {
+public class CorsConfig {
 
-	@Override
-	public void addCorsMappings(CorsRegistry registry) {
+	@Bean
+	public CorsFilter corsFilter() {
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		CorsConfiguration config = new CorsConfiguration();
 
-		registry.addMapping("/**").allowedOriginPatterns("*") // Allow all origins
-				.allowedMethods("*") // Allow all methods (GET, POST, PUT, DELETE, etc.)
-				.allowedHeaders("*") // Allow all headers
-				.allowCredentials(true) // Allow credentials (if needed)
-				.maxAge(3600); // Max age for preflight (OPTIONS) requests
+		// Allow all origins, headers, and methods. This is just an example; you may
+		// want to configure it based on your needs.
+		config.addAllowedOrigin("*");
+		config.addAllowedHeader("*");
+		config.addAllowedMethod("*");
+
+		source.registerCorsConfiguration("/**", config);
+		return new CorsFilter(source);
 	}
 }

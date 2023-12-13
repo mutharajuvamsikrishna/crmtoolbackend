@@ -14,14 +14,12 @@ import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.web.model.MyClass;
 import com.web.model.Otp;
 import com.web.model.Register;
 import com.web.model.Register1;
@@ -31,7 +29,7 @@ import com.web.repo.Register1Repo;
 import com.web.repo.RegisterRepo;
 
 @RestController
-@CrossOrigin(origins = MyClass.BASE_URL)
+
 public class ViewallController {
 
 	@Autowired

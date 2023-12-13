@@ -8,7 +8,6 @@ import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -16,14 +15,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.web.model.MyClass;
 import com.web.model.Pro;
 import com.web.repo.ProRepo;
 import com.web.service.EmailService;
 import com.web.service.ViewAddmoreDetails;
 
 @RestController
-@CrossOrigin(origins = MyClass.BASE_URL)
+
 public class ProController {
 
 	@Autowired

@@ -1,7 +1,6 @@
 package com.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,12 +8,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.web.model.Addmore;
-import com.web.model.MyClass;
 import com.web.service.AddmoreService;
 import com.web.service.ViewAddmoreDetails;
 
 @RestController
-@CrossOrigin(origins = MyClass.BASE_URL)
+
 public class AddmoreController {
 
 	@Autowired
