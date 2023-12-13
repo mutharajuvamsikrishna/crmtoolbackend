@@ -1,5 +1,6 @@
 package com.web.repo;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
@@ -16,6 +17,12 @@ public interface ProRepo extends CrudRepository<Pro, Long> {
 			+ "OR p.intrestserv LIKE CONCAT('%', :query, '%')" + "OR p.lfstatus LIKE CONCAT('%', :query, '%')"
 			+ "OR p.mainemail LIKE CONCAT('%', :query, '%')" + "OR p.id LIKE CONCAT('%', :query, '%')")
 	List<Pro> searchPro(@Param("query") String query);
+
+	@Query("SELECT p FROM Pro p WHERE DATEDIFF(p.followup, :currentDate) = -1")
+	List<Pro> findByFollowupOneDayBefore(@Param("currentDate") Date currentDate);
+
+	@Query("SELECT p FROM Pro p WHERE DATEDIFF(p.followup, :date) = 0")
+	List<Pro> findByFollowup(@Param("date") Date date);
 
 	List<Pro> findAll();
 

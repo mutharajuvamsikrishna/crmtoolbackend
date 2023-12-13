@@ -1,5 +1,6 @@
 package com.web.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,7 +36,6 @@ public class ProController {
 	private EmailService emailservice;
 
 	@GetMapping("/req")
-
 	public List<Pro> getPros() {
 		return repo1.findAll();
 	}
@@ -61,7 +61,7 @@ public class ProController {
 			String country = pro.getCoun();
 			String intserv = pro.getIntrestserv();
 			String web = pro.getWebsite();
-			String followup = pro.getFollowup();
+			Date followup = pro.getFollowup();
 			String region = pro.getRegion();
 			String custate = pro.getCurrentstate();
 			String domain = pro.getDomain();
@@ -102,7 +102,7 @@ public class ProController {
 		String country = pro.getCoun();
 		String intserv = pro.getIntrestserv();
 		String web = pro.getWebsite();
-		String followup = pro.getFollowup();
+		Date followup = pro.getFollowup();
 		String region = pro.getRegion();
 		String custate = pro.getCurrentstate();
 		String domain = pro.getDomain();

@@ -1,5 +1,7 @@
 package com.web.controller;
 
+import java.util.Date;
+
 import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +40,7 @@ public class EmpController {
 		String country = emp.getCoun();
 		String intserv = emp.getIntrestserv();
 		String web = emp.getWebsite();
-		String followup = emp.getFollowup();
+		Date followup = emp.getFollowup();
 		String region = emp.getRegion();
 		String custate = emp.getCurrentstate();
 		String domain = emp.getDomain();

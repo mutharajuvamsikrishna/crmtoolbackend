@@ -1,5 +1,7 @@
 package com.web.model;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,7 +26,9 @@ public class Pro {
 	private String moredetail;
 	private String infoshared;
 	private String detailask;
-	private String followup;
+
+	private Date followup;
+
 	private String website;
 
 	private String linkprof;
@@ -181,11 +185,11 @@ public class Pro {
 		this.detailask = detailask;
 	}
 
-	public String getFollowup() {
+	public Date getFollowup() {
 		return followup;
 	}
 
-	public void setFollowup(String followup) {
+	public void setFollowup(Date followup) {
 		this.followup = followup;
 	}
 
