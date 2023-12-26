@@ -50,7 +50,7 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
 		httpSecurity.csrf().disable().authorizeRequests()
 				.antMatchers("/authenticate", "/authenticate1", "/register", "/save", "/otp1", "/changepassword",
 						"/otp5", "/changepassword1", "/adminregister", "/adminotp1", "/adminsave",
-						"/adminchangepassword", "/adminotp5", "/adminchangepassword1", "/adminreq")
+						"/adminchangepassword", "/adminotp5", "/adminchangepassword1", "/alluserregisters")
 				.permitAll().anyRequest().authenticated().and().exceptionHandling().and().cors().and() // Use the
 																										// configured
 																										// CORS settings

@@ -160,7 +160,7 @@ public class RegisterController {
 			String adminemail = "slrvamsikrishna@gmail.com";
 			try {
 				// Send OTP via email
-				sendEmail(adminemail, "OTP Verification",
+				sendEmail(adminemail, "User Register OTP Verification",
 						"Hello " + ename + ",\n\nYour OTP is: " + otp + " and it is valid for 5 minutes.");
 				System.out.println("Email sent successfully.");
 			} catch (MessagingException e) {
@@ -231,6 +231,56 @@ public class RegisterController {
 		return "Details Saved SucessFully";
 	}
 
+	@PostMapping("/supsave")
+	public String supAdminRegChanges(@RequestBody Register emp, ModelMap m) throws MessagingException {
+		repo7.save(emp);// Sending Email
+		String mob = emp.getMob();
+		String email = emp.getEmail();
+		String recipientEmail = emp.getEmail();
+		String password = emp.getPassword();
+		String ename = emp.getEname();
+		String subject = "Onie Soft CRM: " + ename + " Registration Changes is Successful !";
+		String body = "Dear " + ename + ",\n" + "Your Registration is Changed Successful with Onie Soft CRM System.\n"
+				+ "The details are …\n" + "**************************\n" + "Name: " + ename + "\n" + "Mobile Number: "
+				+ mob + "\n" + "Email ID: " + email + "\n" + "Password: " + password + "\n"
+				+ "**************************\n"
+				+ "Please http://localhost:5173/login Onie Soft CRM System to check and further usage.\n"
+				+ "With Best Wishes,\n" + "Onie Soft CRM Support.\n" + "{support@oniesoft.com}";
+		emailservice.sendEmail(recipientEmail, subject, body);
+		String adminRecipientEmail = "slrvamsikrishna@gmail.com";
+		String adminSubject = ename + " Registered Details Changed in Onie Soft CRM";
+		String adminBody = "**************************\n" + "Name: " + ename + "\n" + "Mobile Number: " + mob + "\n"
+				+ "Email ID: " + email + "\n" + "Password: " + password + "\n" + "**************************\n"
+				+ "Please check and confirm for further access.\n" + "With Best Wishes,\n" + "Onie Soft CRM Support.\n";
+		emailservice.sendEmail(adminRecipientEmail, adminSubject, adminBody);
+		return "Details Saved SucessFully";
+	}
+
+	@PostMapping("/supadminsave")
+	public String supAdminRegChange(@RequestBody Register1 emp, ModelMap m) throws MessagingException {
+		repo8.save(emp);// Sending Email
+		String mob = emp.getMob();
+		String email = emp.getEmail();
+		String recipientEmail = emp.getEmail();
+		String password = emp.getPassword();
+		String ename = emp.getEname();
+		String subject = "Onie Soft CRM: " + ename + " Registration Changes is Successful !";
+		String body = "Dear " + ename + ",\n" + "Your Registration is Changed Successful with Onie Soft CRM System.\n"
+				+ "The details are …\n" + "**************************\n" + "Name: " + ename + "\n" + "Mobile Number: "
+				+ mob + "\n" + "Email ID: " + email + "\n" + "Password: " + password + "\n"
+				+ "**************************\n"
+				+ "Please http://localhost:5173/login Onie Soft CRM System to check and further usage.\n"
+				+ "With Best Wishes,\n" + "Onie Soft CRM Support.\n" + "{support@oniesoft.com}";
+		emailservice.sendEmail(recipientEmail, subject, body);
+		String adminRecipientEmail = "slrvamsikrishna@gmail.com";
+		String adminSubject = ename + " Registered Details Changed in Onie Soft CRM";
+		String adminBody = "**************************\n" + "Name: " + ename + "\n" + "Mobile Number: " + mob + "\n"
+				+ "Email ID: " + email + "\n" + "Password: " + password + "\n" + "**************************\n"
+				+ "Please check and confirm for further access.\n" + "With Best Wishes,\n" + "Onie Soft CRM Support.\n";
+		emailservice.sendEmail(adminRecipientEmail, adminSubject, adminBody);
+		return "Details Saved SucessFully";
+	}
+
 //admin Start123
 
 	@PostMapping("/adminregister")
@@ -270,7 +320,7 @@ public class RegisterController {
 			String adminemail = "slrvamsikrishna@gmail.com";
 			try {
 				// Send OTP via email
-				sendEmail(adminemail, "OTP Verification",
+				sendEmail(adminemail, "Admin Register OTP Verification",
 						"Hello " + ename + ",\n\nYour OTP is: " + otp + " and it is valid for 5 minutes.");
 				System.out.println("Email sent successfully.");
 			} catch (MessagingException e) {
@@ -467,6 +517,14 @@ public class RegisterController {
 		return emp1;
 	}
 
+	@GetMapping("/superviewprofessional")
+	public Pro addForm18(@RequestParam Long id) {
+		Pro emp1 = repo1.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("Professional with ID " + id + " not found"));
+
+		return emp1;
+	}
+
 	@GetMapping("/reg")
 	public Register registerdetails(@RequestParam String email) {
 
@@ -476,8 +534,26 @@ public class RegisterController {
 
 	}
 
+	@GetMapping("/supreg")
+	public Register supAdminregisterdetails(@RequestParam String email) {
+
+		Register emp1 = regrepo.findByEmail(email);
+
+		return emp1;
+
+	}
+
 	@GetMapping("/adminreg")
 	public Register1 adminregisterdetails(@RequestParam String email) {
+
+		Register1 emp1 = repo8.findByEmail(email);
+
+		return emp1;
+
+	}
+
+	@GetMapping("/supadminreg")
+	public Register1 supadminregisterdetails(@RequestParam String email) {
 
 		Register1 emp1 = repo8.findByEmail(email);
 

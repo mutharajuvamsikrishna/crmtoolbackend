@@ -23,10 +23,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.web.model.Otp;
 import com.web.model.Register;
 import com.web.model.Register1;
+import com.web.model.SuperAdminLogin;
 import com.web.repo.OtpRepo;
 import com.web.repo.ProRepo;
 import com.web.repo.Register1Repo;
 import com.web.repo.RegisterRepo;
+import com.web.repo.SuperAdminRepo;
 
 @RestController
 
@@ -42,6 +44,8 @@ public class ViewallController {
 
 	@Autowired
 	private Register1Repo repo8;
+	@Autowired
+	SuperAdminRepo supadrepo;
 
 	@PostMapping("/changepassword")
 	public String changepassword(@RequestBody
@@ -77,8 +81,55 @@ public class ViewallController {
 			String adminemail = "slrvamsikrishna@gmail.com";
 			try {
 				// Send OTP via email
-				sendEmail3(adminemail, "OTP Verification",
+				sendEmail3(adminemail, "User ChangePassword OTP Verification",
 						"Hello " + ename + ",\n\nYour OTP is: " + otp + " and it is valid for 5 minutes.");
+				System.out.println("Email sent successfully.");
+			} catch (MessagingException e) {
+				// Handle any exceptions that occurred during email sending
+				e.printStackTrace();
+				System.out.println("Exception");
+				return "otperror";
+			}
+			System.out.println("Ok");
+			return "otp";
+		}
+	}
+
+	@PostMapping("/superchangepassword")
+	public String changepasswordSuper(@RequestBody
+
+	SuperAdminLogin customer) {
+		String email = customer.getEmail();
+
+		String password = customer.getPassword();
+
+		SuperAdminLogin reg = supadrepo.findByEmailAndPassword(email, password);
+
+		if (reg == null) {
+			System.out.println("reg Is Null");
+			return "regfail";
+		} else {
+			System.out.println("reg Is Not Null");
+
+// Generate OTP
+			String otp = generateOTP();
+			String otpId = UUID.randomUUID().toString();
+			if (otp == null) {
+				System.out.println("otp Is NotNull" + otp);
+				return "regfail";
+			} else {
+				System.out.println("otp Is Not Null" + otp);
+
+			}
+// Save the OTP to the database using the Otp class
+
+			Otp otpEntity = new Otp(otpId, otp);
+			otprepo.save(otpEntity);
+			String adminemail = "slrvamsikrishna@gmail.com";
+			try {
+				// Send OTP via email
+				sendEmail3(adminemail, "SuperAdmin ChangePassword OTP Verification",
+						"Hello SuperAdmin" + ",\n\nYour OTP is: " + otp + " and it is valid for 5 minutes.");
 				System.out.println("Email sent successfully.");
 			} catch (MessagingException e) {
 				// Handle any exceptions that occurred during email sending
@@ -142,10 +193,27 @@ public class ViewallController {
 
 			return "savesuceess1";
 
+		} else {
+			return "fail";
 		}
+	}
 
-		else {
-			return "regfail";
+	@PutMapping("/superchangepassword1")
+	public String superAdminupdatePassword(@RequestBody SuperAdminLogin reg) {
+		String email = reg.getEmail();
+
+		String password1 = reg.getPassword();
+
+		SuperAdminLogin emp = supadrepo.findByEmail(email);
+
+		if (emp != null) {
+			emp.setPassword(password1);
+			supadrepo.save(emp);
+
+			return "savesuceess1";
+
+		} else {
+			return "fail";
 		}
 	}
 
@@ -185,7 +253,7 @@ public class ViewallController {
 			String adminemail = "slrvamsikrishna@gmail.com";
 			try {
 				// Send OTP via email
-				sendEmail3(adminemail, "OTP Verification",
+				sendEmail3(adminemail, "Admin Change Password OTP Verification",
 						"Hello " + ename + ",\n\nYour OTP is: " + otp + " and it is valid for 5 minutes.");
 				System.out.println("Email sent successfully.");
 			} catch (MessagingException e) {

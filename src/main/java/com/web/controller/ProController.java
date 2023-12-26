@@ -38,9 +38,22 @@ public class ProController {
 		return repo1.findAll();
 	}
 
+	@GetMapping("/superadmreq")
+	public List<Pro> getSuperPros() {
+		return repo1.findAll();
+	}
+
 	@GetMapping("/search")
 
 	public List<Pro> searchPro(@RequestParam("query") String query, Model model) {
+		List<Pro> users1 = proRepo.searchPro(query);
+		model.addAttribute("users1", users1);
+		return users1;
+	}
+
+	@GetMapping("/adminsearch")
+
+	public List<Pro> searchProAdmin(@RequestParam("query") String query, Model model) {
 		List<Pro> users1 = proRepo.searchPro(query);
 		model.addAttribute("users1", users1);
 		return users1;
@@ -91,8 +104,53 @@ public class ProController {
 
 	}
 
+	@DeleteMapping(value = "/superdelete") // edited /per455
+	public String deleteSuperAdmin(@RequestParam Long id) {
+		repo1.deleteById(id);
+		return "Deleted Sucess Fully";
+
+	}
+
 	@PutMapping("/usereditupdate")
 	public String updateUserEdit1(@RequestBody Pro pro) throws MessagingException {
+		String email = pro.getEmail();
+
+		String bdmname = pro.getBdmname();
+		String company = pro.getCmpname();
+		String country = pro.getCoun();
+		String intserv = pro.getIntrestserv();
+		String web = pro.getWebsite();
+		Date followup = pro.getFollowup();
+		String region = pro.getRegion();
+		String custate = pro.getCurrentstate();
+		String domain = pro.getDomain();
+		String link = pro.getLinkprof();
+		String summary = pro.getMoredetail();
+		Long id = pro.getId();
+		String subject = company + " CRM Details Updated By " + bdmname;
+		String body = "Dear " + bdmname + "," + "\n" + "These details for  " + company
+				+ "  are Update and saved in Onie Soft CRM System." + "\n" + "**************************\n" + "ID:  "
+				+ id + "\n" + "BDM Name: " + bdmname + "\n" + "Current State: " + custate + "\n" + "Follow-Up Date: "
+				+ followup + "\n" + "Company Name: " + company + "\n" + "Industry: " + domain + "\n" + "Services: "
+				+ intserv + "\n" + "Region: " + region + "\n" + "Country: " + country + "\n" + "Website: " + web + "\n"
+				+ "Company LinkedIn Profile: " + link + "\n" + "Summary: " + summary + "\n"
+				+ "**************************";
+		emailservice.sendEmail(email, subject, body);
+		String adminRecipientEmail = "slrvamsikrishna@gmail.com";
+		String adminSubject = company + " CRM Details Updated By " + bdmname;
+		String adminBody = "Dear Ramana," + "\n" + "These details for  " + company
+				+ "  are Update and saved in Onie Soft CRM System." + "\n" + "**************************\n" + "ID:  "
+				+ id + "\n" + "BDM Name: " + bdmname + "\n" + "Current State: " + custate + "\n" + "Follow-Up Date: "
+				+ followup + "\n" + "Company Name: " + company + "\n" + "Industry: " + domain + "\n" + "Services: "
+				+ intserv + "\n" + "Region: " + region + "\n" + "Country: " + country + "\n" + "Website: " + web + "\n"
+				+ "Company LinkedIn Profile: " + link + "\n" + "Summary: " + summary + "\n"
+				+ "**************************";
+		emailservice.sendEmail(adminRecipientEmail, adminSubject, adminBody);
+		return service.updateUserEdit(pro);
+	}
+
+	@PutMapping("/supreditupdate")
+	public String updateSuperEdit1(@RequestBody Pro pro) throws MessagingException {
 		String email = pro.getEmail();
 
 		String bdmname = pro.getBdmname();

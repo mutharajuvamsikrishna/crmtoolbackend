@@ -49,7 +49,10 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 		httpSecurity.csrf().disable().authorizeRequests()
 				.antMatchers("/authenticate", "/authenticate1", "/register", "/save", "/otp1", "/changepassword",
 						"/otp5", "/changepassword1", "/adminregister", "/adminotp1", "/adminsave",
-						"/adminchangepassword", "/adminotp5", "/adminchangepassword1")
+						"/adminchangepassword", "/adminotp5", "/adminchangepassword1", "/alluserregisters",
+						"/alladminregisters", "/superadminlogin", "/superchangepassword", "/superchangepassword1",
+						"/superadmreq", "/superdelete", "/adminsearch", "/supreditupdate", "/superviewprofessional",
+						"/supreg", "/supsave", "/deleteuserreg", "/supadminreg", "/deleteadminreg", "/supadminsave")
 				.permitAll().anyRequest().authenticated().and().exceptionHandling().and().cors().and() // Use the
 																										// configured
 																										// CORS settings

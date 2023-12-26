@@ -1,5 +1,7 @@
 package com.web.repo;
 
+import java.util.List;
+
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -18,4 +20,5 @@ public interface RegisterRepo extends CrudRepository<Register, String> {
 
 	Register findByMob(String mob);
 
+	List<Register> findAll();
 }
