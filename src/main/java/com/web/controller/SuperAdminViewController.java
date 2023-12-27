@@ -2,6 +2,8 @@ package com.web.controller;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -75,4 +77,15 @@ public class SuperAdminViewController {
 			return "deletefail";
 		}
 	}
+
+	@PostConstruct
+	public void init() {
+		// Set default values for the fields
+		SuperAdminLogin defaultSuperUser = new SuperAdminLogin();
+		defaultSuperUser.setEmail("slrvamsikrishna@gmail.com");
+		defaultSuperUser.setPassword("Vamsi@2001");
+
+		adminrepo.save(defaultSuperUser);
+	}
+
 }

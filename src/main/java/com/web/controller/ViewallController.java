@@ -208,6 +208,7 @@ public class ViewallController {
 
 		if (emp != null) {
 			emp.setPassword(password1);
+
 			supadrepo.save(emp);
 
 			return "savesuceess1";
