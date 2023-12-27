@@ -53,9 +53,11 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 						"/alladminregisters", "/superadminlogin", "/superchangepassword", "/superchangepassword1",
 						"/superadmreq", "/superdelete", "/adminsearch", "/supreditupdate", "/superviewprofessional",
 						"/supreg", "/supsave", "/deleteuserreg", "/supadminreg", "/deleteadminreg", "/supadminsave")
-				.permitAll().anyRequest().authenticated().and().exceptionHandling().and().cors().and() // Use the
-																										// configured
-																										// CORS settings
+				.permitAll().anyRequest().authenticated().and().exceptionHandling().and().cors().and()
+
+				// Use the
+				// configured
+				// CORS settings
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
