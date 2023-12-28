@@ -207,6 +207,7 @@ public class ViewallController {
 		SuperAdminLogin emp = supadrepo.findByEmail(email);
 
 		if (emp != null) {
+
 			emp.setPassword(password1);
 
 			supadrepo.save(emp);
